@@ -7,19 +7,14 @@ if (isset($_FILES['file']['name'])) {
     // Location
     $location = 'uploads/' . $filename;
 
-    // file extension
-    $file_extension = pathinfo($location, PATHINFO_EXTENSION);
-    $file_extension = strtolower($file_extension);
-
-    // Valid extensions
-    $valid_ext = array("xls", "doc", "docx", "xlsx");
-
     $response = 0;
-    // Upload file
-    if (in_array($file_extension, $valid_ext) && move_uploaded_file($_FILES['file']['tmp_name'], $location)) {
-        $response = 1;
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {
+        $response = "Uploaded Successfully";
     }
 
     echo $response;
+
+    // Delete the file and exit the script
+    unlink($location);
     exit;
 }
