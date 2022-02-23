@@ -7,9 +7,21 @@ if (isset($_FILES['file']['name'])) {
     // Location
     $location = 'uploads/' . $filename;
 
+    // Check if file is a xlsx file
+    $fileType = pathinfo($location, PATHINFO_EXTENSION);
+
     $response = 0;
-    if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {
-        $response = "Uploaded Successfully";
+
+    if ($fileType === 'xlsx') {
+        // Upload file
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {
+            $response = 'File uploaded successfully';
+        } else {
+            $response = 'File upload failed, please try again.';
+        }
+    } else {
+        // Not a xlsx file
+        $response = 'Please upload a xlsx file';
     }
 
     echo $response;
